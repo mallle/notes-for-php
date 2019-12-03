@@ -1,0 +1,221 @@
+a {
+    color: #00d1b2;
+}
+
+a:hover {
+    color: #08b198;
+}
+
+.section-content{
+    margin: 0 0 28px 24px;
+}
+
+/******************
+*Utilities
+******************/
+.ml-20{
+    margin-left: 20px;
+}
+
+.ml-40{
+    margin-left: 40px;
+}
+
+
+/******************
+* Copy message
+******************/
+#success{
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    border-radius: 0;
+    -webkit-animation: show 3s;
+    -moz-animation: show 3s;
+    -o-animation: show 3s;
+    animation: show 3s;
+}
+
+.message-header{
+    background-color: #009688;
+    border-radius: 0;
+}
+
+@keyframes show {
+    0%   { opacity:0; }
+    20% { opacity:1; }
+    80% { opacity:1; }
+    100% { opacity:0; }
+}
+@-o-keyframes flickerAnimation{
+    0%   { opacity:0; }
+    20% { opacity:1; }
+    80% { opacity:1; }
+    100% { opacity:0; }
+}
+@-moz-keyframes flickerAnimation{
+    0%   { opacity:0; }
+    20% { opacity:1; }
+    80% { opacity:1; }
+    100% { opacity:0; }
+}
+@-webkit-keyframes flickerAnimation{
+    0%   { opacity:0; }
+    20% { opacity:1; }
+    80% { opacity:1; }
+    100% { opacity:0; }
+}
+
+/******************
+* Copy button and heading
+******************/
+button.copy{
+    border: none;
+    align-self: start;
+}
+
+button.copy:hover{
+    cursor: pointer;
+}
+
+button.copy:focus{
+    outline: none;
+}
+
+.heading-box{
+    display: flex;
+}
+
+/******************
+*Accordion
+******************/
+
+/*Button on accordion*/
+.accordion{
+    background: #00d1b2;
+    color: #f5f5f5;
+    text-align: left;
+    padding: 16px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: 0.4s;
+    outline: none;
+}
+
+/*Change color of panel if active or hovered. The class .active will be added with javascript*/
+.active, .accordion:hover {
+    background-color: #08b198;
+}
+
+/* Unicode character for "plus" sign (+) */
+.accordion:after {
+    content: '\002B';
+    color: #f5f5f5;
+    font-weight: bold;
+    font-size: 20px;
+    float: right;
+    margin-left: 5px;
+    margin-top: -2px;
+}
+
+/* Unicode character for "minus" sign (-) */
+.active:after {
+    content: "\2212";
+    transition: 0.4s;
+}
+
+.panel {
+    padding: 0px 16px;
+    background-color: #fff;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.panel >.content,
+.content > ul{
+    margin: 12px;
+}
+
+/******************
+* Message component
+******************/
+
+/*Addition to messange component*/
+.message-footer{
+    color: #00d1b2;
+    padding: 0px 0px 14px 24px;
+    background: #fafafa;
+}
+
+
+/******************
+ * Tooltip Styles - from this website: https://chrisbracco.com/a-simple-css-tooltip/
+******************/
+
+/* Add this attribute to the element that needs a tooltip */
+[data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 160px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+    position: absolute;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}

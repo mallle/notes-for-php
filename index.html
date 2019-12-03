@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>PHP Notes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="./base.css">
+</head>
+
+<body>
+<header class="section">
+    <div class="container">
+        <h1 class="title is-1">Notes for <a href="#start-basics">Start Basics</a> and <a href="#php">PHP</a>
+        </h1>
+    </div>
+</header>
+<article class="message" id="success">
+    <div class="message-header"></div>
+</article>
+<nav class="section">
+    <div class="container">
+        <h4 class="title is-4">Table of Content</h4>
+        <div class="columns">
+            <div class="column">
+                <button class="accordion">Start Basics</button>
+                <div class="panel">
+                    <div class="content">
+                        <ul>
+                            <li><a href="#web-server">Built-in PHP web server </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <button class="accordion">PHP</button>
+                <div class="panel">
+                    <div class="content">
+                        <ul>
+                            <li><a href="#oop">OOP</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<main class="scrolling-box">
+    <section class="section">
+        <div class="container">
+            <div class="heading-box">
+                <h2 class="title is-2" id="start-basics">Start Basics</h2>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="web-server"><strong>Built-in PHP web server </strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+
+            <button class="copy">test2</button>
+            <div class="section-content">
+                <div class="content">
+                    <p>Start the web server</p>
+                    <div class="notification">php -S localhost:8000</div>
+                </div>
+            </div>
+
+            <!-- <h3 class="title is-3" id="#"></h3>
+            <div class="section-content">
+                <div class="content">
+                    <p></p>
+                    <div class="notification"></div>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="heading-box">
+                <h2 class="title is-2" id="php">PHP</h2>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="oop">OOP</h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <h4 class="title is-4">Classes</h4>
+                    <p>A class can be seen as a template for <a href="#objects">objects</a> and is defined as followed:</p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Syntax
+                        </div>
+                        <div class="message-body">
+                            class ClassName { <br>
+                            <br>
+                            }
+                        </div>
+                    </div>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Creating a class
+                        </div>
+                        <div class="message-body">
+                            class Person { <br>
+                            <br>
+                            }
+                        </div>
+                    </div>
+                    <p>A class name should be written in UppercaseCamelCase. A good practice is to have one class in each file and name the file the same as the class.</p>
+
+                    <h5 class="title is-5">Properties</h5>
+                    <p>A class can hold different properties. These can be seen as the characteristics of a class. An example of a class with properties</p>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Class with properties
+                        </div>
+                        <div class="message-body">
+                            class Person { <br><br>
+                            <span class="ml-20">public $name;</span><br>
+                            <span class="ml-20">public $lastName;</span><br>
+                            <span class="ml-20">public $age;</span><br>
+                            <br>
+                            }
+                        </div>
+                    </div>
+                    <div class="heading-box">
+                        <h4 class="title is-4" id="objects">Objects</h4>
+                        <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+                    </div>
+                    <p>After defining a class it's possible to instantiate one or more objects from that class. </p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Syntax: Instantiate an Object
+                        </div>
+                        <div class="message-body">
+                            $newObject = new ClassName();
+                        </div>
+                    </div>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Instantiate an Object from the class 'Person' and save it to the variable $myFriend
+                        </div>
+                        <div class="message-body">
+                            $myFried = new Person();
+                        </div>
+                    </div>
+                    <p>So if a class can be seen as a template, an instance of a class (also called object) can be seen as a copy of the template. After instantiating a class it's possible to fill out the template with unique data. In the case above, the class contains the property's name and age. These can be filled with data for the new $myFried object as followed: </p>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Set data on a object
+                        </div>
+                        <div class="message-body">
+                            $myFriend->name = 'Lucas'; <br>
+                            $myFriend->lastName = 'Bloom'; <br>
+                            $myFriend->age = 30;
+                        </div>
+                    </div>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Access the data saved on an object
+                        </div>
+                        <div class="message-body">
+                            echo $myFriend->name . ' is ' . $myFriend->age = 30 . ' years old!';
+                        </div>
+                        <div class="message-footer">
+                            prints: Lucas is 30 years old!
+                        </div>
+                    </div>
+                    <h5 class="title is-5">Methods</h5>
+                    <p>Classes can also hold methods. Every object instantiated from the class can use these methods. A method is defined as follewed: </p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Syntax
+                        </div>
+                        <div class="message-body">
+                            class ClassName { <br>
+                            <br>
+                                <span class="ml-20">public function functionName(&lt;parameterOne&gt, &lt;parameterTwo&gt){ <br> </span>
+                                <span class="ml-40">//DO SOMETHING</span> <br>
+                            <span class="ml-20">}</span> <br><br>
+                            }
+                        </div>
+                    </div>
+                    <p>In the example beneath the class  'Person' now contains a method. Inside methods, is it possible to access properties that are defined in the class by using the keyword $this.</p>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Class with properties and one method that prints the full name of the object
+                        </div>
+                        <div class="message-body">
+                            class Person { <br>
+                            <br>
+                            <span class="ml-20">public $name;</span><br>
+                            <span class="ml-20">public $lastName;</span><br>
+                            <span class="ml-20">public $age;</span><br><br>
+
+                            <span class="ml-20">public function printFullName(&lt;parameterOne&gt, &lt;parameterTwo&gt){ <br> </span>
+                            <span class="ml-40">print $this->name . ' ' .  $this->lastName;</span> <br>
+                            <span class="ml-20">}</span> <br><br>
+                            }
+                        </div>
+                    </div>
+                    <p>Accessing a method on an object is almost identical to accessing a property. To access a method an arrow is used followed by the name of the method and then an opening and closing parenthesis ().</p>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Example: Access a method on an object
+                        </div>
+                        <div class="message-body">
+                            $myFriend->printFullName();
+                        </div>
+                        <div class="message-footer">
+                            prints: Lucas Bloom
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="./base.js"></script>
+</body>
+
+</html>
