@@ -13,7 +13,7 @@
 <body>
 <header class="section">
     <div class="container">
-        <h1 class="title is-1">Notes for <a href="#start-basics">Start Basics</a> and <a href="#php">PHP</a>
+        <h1 class="title is-1">Notes for <a href="#start-basics">Start Basics</a>, <a href="#php">PHP</a> and  <a href="#symfony">Symfony</a>
         </h1>
     </div>
 </header>
@@ -30,6 +30,8 @@
                     <div class="content">
                         <ul>
                             <li><a href="#web-server">Built-in PHP web server </a></li>
+                            <li><a href="#authentication">Authentication</a></li>
+                            <li><a href="#authorization">Authorization</a></li>
                         </ul>
                     </div>
                 </div>
@@ -40,6 +42,16 @@
                     <div class="content">
                         <ul>
                             <li><a href="#oop">OOP</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <button class="accordion">Symfony</button>
+                <div class="panel">
+                    <div class="content">
+                        <ul>
+                            <li><a href="#doctrine">Doctrine</a></li>
                         </ul>
                     </div>
                 </div>
@@ -58,14 +70,32 @@
                 <h3 class="title is-3" id="web-server"><strong>Built-in PHP web server </strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
-
-            <button class="copy">test2</button>
             <div class="section-content">
                 <div class="content">
                     <p>Start the web server</p>
                     <div class="notification">php -S localhost:8000</div>
                 </div>
             </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="authentication"><strong>Authentication</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Find out who a user is, and make the user prove who he is. Can be described as the login process.</p>
+                </div>
+            </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="authorization"><strong>Authorization</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Just because a user got Authenticated (the user proved who he is), doesn't mean he is allowed to see all the content that is on our application. Therefore a user needs to be checked if he has access to different content. This is done by Authorization. </p>
+                </div>
+            </div>
+
 
             <!-- <h3 class="title is-3" id="#"></h3>
             <div class="section-content">
@@ -94,7 +124,7 @@
                         <div class="message-header">
                             Syntax
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             class ClassName { <br>
                             <br>
                             }
@@ -102,9 +132,9 @@
                     </div>
                     <div class="message is-dark">
                         <div class="message-header">
-                            Example: Creating a class
+                            Example: Creating a class named Person
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             class Person { <br>
                             <br>
                             }
@@ -113,12 +143,12 @@
                     <p>A class name should be written in UppercaseCamelCase. A good practice is to have one class in each file and name the file the same as the class.</p>
 
                     <h5 class="title is-5">Properties</h5>
-                    <p>A class can hold different properties. These can be seen as the characteristics of a class. An example of a class with properties</p>
+                    <p>A class can hold different properties. These can be seen as the characteristics of the class.</p>
                     <div class="message is-dark">
                         <div class="message-header">
                             Example: Class with properties
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             class Person { <br><br>
                             <span class="ml-20">public $name;</span><br>
                             <span class="ml-20">public $lastName;</span><br>
@@ -136,7 +166,7 @@
                         <div class="message-header">
                             Syntax: Instantiate an Object
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             $newObject = new ClassName();
                         </div>
                     </div>
@@ -144,16 +174,17 @@
                         <div class="message-header">
                             Example: Instantiate an Object from the class 'Person' and save it to the variable $myFriend
                         </div>
-                        <div class="message-body">
-                            $myFried = new Person();
+                        <div class="message-body is-family-code">
+                            $myFried = new Person(); <span class="is-italic has-text-weight-light">//One object saved into the variable $myFriend</span><br>
+                            $myMom = new Person(); <span class="is-italic has-text-weight-light">//Another object saved into the variable $myMom</span>
                         </div>
                     </div>
-                    <p>So if a class can be seen as a template, an instance of a class (also called object) can be seen as a copy of the template. After instantiating a class it's possible to fill out the template with unique data. In the case above, the class contains the property's name and age. These can be filled with data for the new $myFried object as followed: </p>
+                    <p>So if a class can be seen as a template, an instance of a class (also called object) can be seen as a copy of the template. It's even possible to make more than one instance of the class like it's possible to reuse a  normal template. After instantiating a class, the template can be filled with unique data that describes exactly that one object.  In the case above the class contains the property's $name, $lastName and $age. These can be filled with data for the new $myFried object as followed:</p>
                     <div class="message is-dark">
                         <div class="message-header">
-                            Example: Set data on a object
+                            Example: Set data on the new object
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             $myFriend->name = 'Lucas'; <br>
                             $myFriend->lastName = 'Bloom'; <br>
                             $myFriend->age = 30;
@@ -161,9 +192,9 @@
                     </div>
                     <div class="message is-dark">
                         <div class="message-header">
-                            Example: Access the data saved on an object
+                            Example: Access the data saved on the object saved in $myFried
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             echo $myFriend->name . ' is ' . $myFriend->age = 30 . ' years old!';
                         </div>
                         <div class="message-footer">
@@ -171,15 +202,15 @@
                         </div>
                     </div>
                     <h5 class="title is-5">Methods</h5>
-                    <p>Classes can also hold methods. Every object instantiated from the class can use these methods. A method is defined as follewed: </p>
+                    <p>Classes can also hold methods. Every object instantiated from the class can use these methods. A method is defined as followed:</p>
                     <div class="message is-info ">
                         <div class="message-header">
                             Syntax
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             class ClassName { <br>
                             <br>
-                                <span class="ml-20">public function functionName(&lt;parameterOne&gt, &lt;parameterTwo&gt){ <br> </span>
+                                <span class="ml-20">public function methodName(&lt;parameterOne&gt, &lt;parameterTwo&gt){ <br> </span>
                                 <span class="ml-40">//DO SOMETHING</span> <br>
                             <span class="ml-20">}</span> <br><br>
                             }
@@ -190,7 +221,7 @@
                         <div class="message-header">
                             Example: Class with properties and one method that prints the full name of the object
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             class Person { <br>
                             <br>
                             <span class="ml-20">public $name;</span><br>
@@ -203,20 +234,72 @@
                             }
                         </div>
                     </div>
-                    <p>Accessing a method on an object is almost identical to accessing a property. To access a method an arrow is used followed by the name of the method and then an opening and closing parenthesis ().</p>
                     <div class="message is-dark">
                         <div class="message-header">
                             Example: Access a method on an object
                         </div>
-                        <div class="message-body">
+                        <div class="message-body is-family-code">
                             $myFriend->printFullName();
                         </div>
                         <div class="message-footer">
                             prints: Lucas Bloom
                         </div>
                     </div>
+                    <h5 class="title is-5">The variable: $this</h5>
+                        <p>Inside a method, we have access to the special variable $this. Before we saw that it is possible to instantiate more than one object from a class, we also saw that it's possible to call a function on an object. We also saw that every new object has access to the properties that are defined in the class (in this example, $name, $lastName, and $age). When a method get's called on an object ($myFriend->printFullName()), the variable $this gets available inside the method printFullName().  The variable $this points to /references the object that called the method (in this case the variable $myFriend and not $myMom). So if we call $myFriend->printFullName() than inside printFullName(), $this will be the $myFriend object, but if you call $myMom->printFullName() than it will be the $myMom object.
+    So $this variable inside Class always refers to the object from which the method was called.</p>
+                   </div>
+            </div>
+        </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <div class="heading-box">
+                <h2 class="title is-2" id="symfony">Symfony</h2>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="doctrine"><strong>Doctrine</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install Doctine:</p>
+                    <div class="notification">composer require doctrine</div>
                 </div>
             </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Setting up the database in the .env file:</p>
+                    <div class="notification">DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name</div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Create the database:</p>
+                    <div class="notification">php bin/console doctrine:database:create</div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Create a migration:</p>
+                    <div class="notification">php bin/console make:migration</div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Run the migration files:</p>
+                    <div class="notification">php bin/console doctrine:migrations:migrate</div>
+                </div>
+            </div>
+
+            <!-- <h3 class="title is-3" id="#"></h3>
+            <div class="section-content">
+                <div class="content">
+                    <p></p>
+                    <div class="notification"></div>
+                </div>
+            </div> -->
         </div>
     </section>
 </main>
