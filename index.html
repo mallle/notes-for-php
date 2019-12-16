@@ -41,6 +41,7 @@
                 <div class="panel">
                     <div class="content">
                         <ul>
+                            <li><a href="#basic-php">Basics</a></li>
                             <li><a href="#oop">OOP</a></li>
                         </ul>
                     </div>
@@ -111,6 +112,41 @@
             <div class="heading-box">
                 <h2 class="title is-2" id="php">PHP</h2>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="basic-php">Basics</h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Start a new PHP file</p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Start a new PHP file
+                        </div>
+                        <div class="message-body is-family-code">
+                            &lt;?php
+                        </div>
+                    </div>
+                    <p>To get access to functionality from a different file, require that other file in your current file:</p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Require an external file
+                        </div>
+                        <div class="message-body is-family-code">
+                            require __DIR__.'/FileName.php';
+                        </div>
+                    </div>
+                    <p>To get the directory of a file use:</p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            The directory of a file
+                        </div>
+                        <div class="message-body is-family-code">
+                            __DIR__
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="heading-box">
                 <h3 class="title is-3" id="oop">OOP</h3>
@@ -246,9 +282,11 @@
                         </div>
                     </div>
                     <h5 class="title is-5">The variable: $this</h5>
-                        <p>Inside a method, we have access to the special variable $this. Before we saw that it is possible to instantiate more than one object from a class, we also saw that it's possible to call a function on an object. We also saw that every new object has access to the properties that are defined in the class (in this example, $name, $lastName, and $age). When a method get's called on an object ($myFriend->printFullName()), the variable $this gets available inside the method printFullName().  The variable $this points to /references the object that called the method (in this case the variable $myFriend and not $myMom). So if we call $myFriend->printFullName() than inside printFullName(), $this will be the $myFriend object, but if you call $myMom->printFullName() than it will be the $myMom object.
+                    <p>Inside a method, we have access to the special variable $this. Before we saw that it is possible to instantiate more than one object from a class, we also saw that it's possible to call a function on an object. We also saw that every new object has access to the properties that are defined in the class (in this example, $name, $lastName, and $age). When a method get's called on an object ($myFriend->printFullName()), the variable $this gets available inside the method printFullName().  The variable $this points to /references the object that called the method (in this case the variable $myFriend and not $myMom). So if we call $myFriend->printFullName() than inside printFullName(), $this will be the $myFriend object, but if you call $myMom->printFullName() than it will be the $myMom object.
     So $this variable inside Class always refers to the object from which the method was called.</p>
-                   </div>
+                </div>
+                <h5 class="title is-5">Visibility modifier</h5>
+
             </div>
         </div>
     </section>
