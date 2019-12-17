@@ -286,7 +286,66 @@
     So $this variable inside Class always refers to the object from which the method was called.</p>
                 </div>
                 <h5 class="title is-5">Visibility modifier</h5>
-
+                <p>The modifiers are used to Restrict access to properties and methods outside a class. There exsists three visibility modifiers Public, Private, and Protected. </p>
+                <div class="message is-info ">
+                    <div class="message-header">
+                        Public
+                    </div>
+                    <div class="message-body is-family-code">
+                        class ClassName { <br>
+                        <br>
+                        <span class="ml-20">public $myProperty;</span><span class="is-italic has-text-weight-light">//Property is accessible everywhere.</span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+                <div class="message is-info ">
+                    <div class="message-header">
+                        Private
+                    </div>
+                    <div class="message-body is-family-code">
+                        class ClassName { <br>
+                        <br>
+                        <span class="ml-20">private $myProperty; </span> <span class="is-italic has-text-weight-light">//Property is only accessible inside its class.</span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+                <div class="message is-info">
+                    <div class="message-header">
+                        Protected
+                    </div>
+                    <div class="message-body is-family-code">
+                        class ClassName { <br>
+                        <br>
+                        <span class="ml-20">protected $myPropert;</span> <span class="is-italic has-text-weight-light">//Provides access to the property in every class that inherits from the class where the property is defined.</span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+                <h5 class="title is-5">Getter and Setter</h5>
+                <p>To make it possible to interact with a private property two public methods are needed, one to set the property (setter) and one to get the property (getter).</p>
+                <p>Inside the setter method, it's then possible to restrict/control that the right value gets set on the property. It could, for instance, be possible to check if a string is set on a property named 'name' instead of a number.
+                    Inside a getter method, it's possible to control how the property is 'delivered'. For instance, the method could always make sure that the name has its first letter in uppercase. </p>
+                <div class="message is-dark">
+                    <div class="message-header">
+                        Public
+                    </div>
+                    <div class="message-body is-family-code">
+                        class Person { <br>
+                        <br>
+                        <span class="ml-20">private $name; </span><br>
+                        <br>
+                        <span class="ml-20">public function setName(string $name){</span><br>
+                        <span class="ml-40">$this->name = $name; </span><br>
+                        <span class="ml-20">} </span><br>
+                        <br>
+                        <span class="ml-20">public function getName(){</span><br>
+                        <span class="ml-40">return ucfirst($this->name); </span><br>
+                        <span class="ml-20">} </span><br>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </section>
