@@ -346,6 +346,22 @@
                         }
                     </div>
                 </div>
+                <h5 class="title is-5">Type Hint</h5>
+                <p>The purpose of type hint in PHP ist to get better errors.  Another benefit is that autocompleting is offered on parameters that got type hinted. Not only objects can be type hinted, but also integers, arrays, strings, and booleans (in general, all types that are in PHP).</p>
+                <div class="message is-dark">
+                    <div class="message-header">
+                        Public
+                    </div>
+                    <div class="message-body is-family-code">
+                        function getCharacteristics(Person $person) :array { <span class="is-italic has-text-weight-light">//There the class Person was type hinted</span><br>
+                        <br>
+                        <span class="ml-20">return [</span><br>
+                        <span class="ml-40">'name' => $this->getName() .  ' ' . $this->getLastName(); </span><br>
+                        <span class="ml-40">'age' => $this->getAge(); </span><br>
+                        <span class="ml-20">];</span><br>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -355,6 +371,17 @@
                 <h2 class="title is-2" id="symfony">Symfony</h2>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="symfony-basics"><strong>Basics</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Get a list of all Symfony Container Services:</p>
+                    <div class="notification">php bin/console debug:container</div>
+                </div>
+            </div>
+
             <div class="heading-box">
                 <h3 class="title is-3" id="doctrine"><strong>Doctrine</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
