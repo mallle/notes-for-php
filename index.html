@@ -417,7 +417,19 @@
                     <div class="notification">php bin/console doctrine:migrations:migrate</div>
                 </div>
             </div>
-
+            <div class="section-content">
+                <div class="content">
+                    <p>See the changes that will be made in the datebase after changing anything in yaml files or the entetiy (if you work with annotations):
+                    (This has nothing to do with the migraitons.)</p>
+                    <div class="notification">php bin/console doctrine:schema:update --dump-sql</div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Execute the changes. (This has nothing to do with the migraitons.)</p>
+                    <div class="notification">php bin/console doctrine:schema:update --dump-sql --force</div>
+                </div>
+            </div>
             <!-- <h3 class="title is-3" id="#"></h3>
             <div class="section-content">
                 <div class="content">
