@@ -284,86 +284,124 @@
                     </div>
                     <h5 class="title is-5">The variable: $this</h5>
                     <p>Inside a method, we have access to the special variable $this. Before we saw that it is possible to instantiate more than one object from a class, we also saw that it's possible to call a function on an object. We also saw that every new object has access to the properties that are defined in the class (in this example, $name, $lastName, and $age). When a method get's called on an object ($myFriend->printFullName()), the variable $this gets available inside the method printFullName().  The variable $this points to /references the object that called the method (in this case the variable $myFriend and not $myMom). So if we call $myFriend->printFullName() than inside printFullName(), $this will be the $myFriend object, but if you call $myMom->printFullName() than it will be the $myMom object.
-    So $this variable inside Class always refers to the object from which the method was called.</p>
-                </div>
-                <h5 class="title is-5">Visibility modifier</h5>
-                <p>The modifiers are used to Restrict access to properties and methods outside a class. There exsists three visibility modifiers Public, Private, and Protected. </p>
-                <div class="message is-info ">
-                    <div class="message-header">
-                        Public
+                    So $this variable inside Class always refers to the object from which the method was called.</p>
+                    <h5 class="title is-5">Visibility modifier</h5>
+                    <p>The modifiers are used to Restrict access to properties and methods outside a class. There exsists three visibility modifiers Public, Private, and Protected. </p>
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Public
+                        </div>
+                        <div class="message-body is-family-code">
+                            class ClassName { <br>
+                            <br>
+                            <span class="ml-20">public $myProperty;</span><span class="is-italic has-text-weight-light">//Property is accessible everywhere.</span><br>
+                            <br>
+                            }
+                        </div>
                     </div>
-                    <div class="message-body is-family-code">
-                        class ClassName { <br>
-                        <br>
-                        <span class="ml-20">public $myProperty;</span><span class="is-italic has-text-weight-light">//Property is accessible everywhere.</span><br>
-                        <br>
-                        }
+                    <div class="message is-info ">
+                        <div class="message-header">
+                            Private
+                        </div>
+                        <div class="message-body is-family-code">
+                            class ClassName { <br>
+                            <br>
+                            <span class="ml-20">private $myProperty; </span> <span class="is-italic has-text-weight-light">//Property is only accessible inside its class.</span><br>
+                            <br>
+                            }
+                        </div>
                     </div>
-                </div>
-                <div class="message is-info ">
-                    <div class="message-header">
-                        Private
+                    <div class="message is-info">
+                        <div class="message-header">
+                            Protected
+                        </div>
+                        <div class="message-body is-family-code">
+                            class ClassName { <br>
+                            <br>
+                            <span class="ml-20">protected $myPropert;</span> <span class="is-italic has-text-weight-light">//Provides access to the property in every class that inherits from the class where the property is defined.</span><br>
+                            <br>
+                            }
+                        </div>
                     </div>
-                    <div class="message-body is-family-code">
-                        class ClassName { <br>
-                        <br>
-                        <span class="ml-20">private $myProperty; </span> <span class="is-italic has-text-weight-light">//Property is only accessible inside its class.</span><br>
-                        <br>
-                        }
+                    <h5 class="title is-5">Getter and Setter</h5>
+                    <p>To make it possible to interact with a private property two public methods are needed, one to set the property (setter) and one to get the property (getter).</p>
+                    <p>Inside the setter method, it's then possible to restrict/control that the right value gets set on the property. It could, for instance, be possible to check if a string is set on a property named 'name' instead of a number.
+                        Inside a getter method, it's possible to control how the property is 'delivered'. For instance, the method could always make sure that the name has its first letter in uppercase. </p>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Public
+                        </div>
+                        <div class="message-body is-family-code">
+                            class Person { <br>
+                            <br>
+                            <span class="ml-20">private $name; </span><br>
+                            <br>
+                            <span class="ml-20">public function setName(string $name){</span><br>
+                            <span class="ml-40">$this->name = $name; </span><br>
+                            <span class="ml-20">} </span><br>
+                            <br>
+                            <span class="ml-20">public function getName(){</span><br>
+                            <span class="ml-40">return ucfirst($this->name); </span><br>
+                            <span class="ml-20">} </span><br>
+                            }
+                        </div>
                     </div>
-                </div>
-                <div class="message is-info">
-                    <div class="message-header">
-                        Protected
+                    <h5 class="title is-5">Type Hint</h5>
+                    <p>The purpose of type hint in PHP ist to get better errors.  Another benefit is that autocompleting is offered on parameters that got type hinted. Not only objects can be type hinted, but also integers, arrays, strings, and booleans (in general, all types that are in PHP).</p>
+                    <div class="message is-dark">
+                        <div class="message-header">
+                            Type Hint
+                        </div>
+                        <div class="message-body is-family-code">
+                            function getCharacteristics(Person $person) :array { <span class="is-italic has-text-weight-light">//There the class Person was type hinted</span><br>
+                            <br>
+                            <span class="ml-20">return [</span><br>
+                            <span class="ml-40">'name' => $this->getName() .  ' ' . $this->getLastName(); </span><br>
+                            <span class="ml-40">'age' => $this->getAge(); </span><br>
+                            <span class="ml-20">];</span><br>
+                            }
+                        </div>
                     </div>
-                    <div class="message-body is-family-code">
-                        class ClassName { <br>
-                        <br>
-                        <span class="ml-20">protected $myPropert;</span> <span class="is-italic has-text-weight-light">//Provides access to the property in every class that inherits from the class where the property is defined.</span><br>
-                        <br>
-                        }
+                    <h5 class="title is-5">Constructor</h5>
+                    <p>Whenever a new object is instantiated a unique method is called. This method is called the constructor and looks like this:</p>
+                    <div class="message is-info">
+                        <div class="message-header">
+                            __construct
+                        </div>
+                        <div class="message-body is-family-code">
+                            class Person { <br>
+                            <br>
+                            <span class="ml-20">public function __construct(){</span><br>
+                            <span class="ml-20">} </span><br>
+                            <br>
+                            }
+                        </div>
                     </div>
-                </div>
-                <h5 class="title is-5">Getter and Setter</h5>
-                <p>To make it possible to interact with a private property two public methods are needed, one to set the property (setter) and one to get the property (getter).</p>
-                <p>Inside the setter method, it's then possible to restrict/control that the right value gets set on the property. It could, for instance, be possible to check if a string is set on a property named 'name' instead of a number.
-                    Inside a getter method, it's possible to control how the property is 'delivered'. For instance, the method could always make sure that the name has its first letter in uppercase. </p>
-                <div class="message is-dark">
-                    <div class="message-header">
-                        Public
+                    <p>So every time we call 'new Person()' - this unique method is called. Inside the method, we can do everything we can do in a 'normal' method, and it's also possible to pass parameters to the method. Let's see an example: </p>                <div class="message is-dark">
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: __construct (with paramenters)
+                        </div>
+                        <div class="message-body is-family-code">
+                            class Person { <br>
+                            <br>
+                            <span class="ml-20">private $name; </span><br>
+                            <br>
+                            <span class="ml-20">public function __construct(string $name){</span><br>
+                            <span class="ml-40">$this->name = $name; </span><br>
+                            <span class="ml-20">} </span><br>
+                            <br>
+                            }
+                            <br>
+                            <br>
+                            $person = new Person('Carl');  <span class="is-italic has-text-weight-light">//Because the constructor has a parameter, we need to pass an argument to the constructor while instantiating the object Person. </span><br>
+                            <br>
+                        </div>
                     </div>
-                    <div class="message-body is-family-code">
-                        class Person { <br>
-                        <br>
-                        <span class="ml-20">private $name; </span><br>
-                        <br>
-                        <span class="ml-20">public function setName(string $name){</span><br>
-                        <span class="ml-40">$this->name = $name; </span><br>
-                        <span class="ml-20">} </span><br>
-                        <br>
-                        <span class="ml-20">public function getName(){</span><br>
-                        <span class="ml-40">return ucfirst($this->name); </span><br>
-                        <span class="ml-20">} </span><br>
-                        }
-                    </div>
-                </div>
-                <h5 class="title is-5">Type Hint</h5>
-                <p>The purpose of type hint in PHP ist to get better errors.  Another benefit is that autocompleting is offered on parameters that got type hinted. Not only objects can be type hinted, but also integers, arrays, strings, and booleans (in general, all types that are in PHP).</p>
-                <div class="message is-dark">
-                    <div class="message-header">
-                        Public
-                    </div>
-                    <div class="message-body is-family-code">
-                        function getCharacteristics(Person $person) :array { <span class="is-italic has-text-weight-light">//There the class Person was type hinted</span><br>
-                        <br>
-                        <span class="ml-20">return [</span><br>
-                        <span class="ml-40">'name' => $this->getName() .  ' ' . $this->getLastName(); </span><br>
-                        <span class="ml-40">'age' => $this->getAge(); </span><br>
-                        <span class="ml-20">];</span><br>
-                        }
-                    </div>
+                    <p>If the constructor is not defined, it is still called in the background without doing anything than instantiate the object. </p>
                 </div>
             </div>
+        </div>
         </div>
     </section>
     <section class="section">
