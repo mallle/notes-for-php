@@ -53,7 +53,9 @@
                     <div class="content">
                         <ul>
                             <li><a href="#symfony-basics">Basics</a></li>
+                            <li><a href="#controller">Controller</a></li>
                             <li><a href="#doctrine">Doctrine</a></li>
+                            <li><a href="#makerBundle">MakerBundle</a></li>
                         </ul>
                     </div>
                 </div>
@@ -420,11 +422,55 @@
                     <div class="notification">php bin/console debug:container</div>
                 </div>
             </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Get a list of all of the available types that can be used for autowiring:</p>
+                    <div class="notification">php bin/console debug:autowiring</div>
+                </div>
+            </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="controller"><strong>Controller</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Controller with routing
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Controller;<br><br>
+                        use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                        use Symfony\Component\HttpFoundation\Response;<br>
+                        use Symfony\Component\Routing\Annotation\Route;<br><br>
+
+                        class PersonController extends AbstractController { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @Route("/admin/person/new")</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function new(){</span><br>
+                        <span class="ml-40">return new Response('Insert new Person');</span><br>
+                        <span class="ml-20">} </span><br>
+                        <br>
+                        }
+
+                    </div>
+                </div>
+            </div>
 
             <div class="heading-box">
                 <h3 class="title is-3" id="doctrine"><strong>Doctrine</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
+            <h5 class="title is-5">About</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Doctrine is an ORM ( Object Relational Mapper). That means doctrine can automatically transfer data stored in a relational database table (like Maria Database) into objects.
+                        So if we need a table with persons, we would need to create a class called person.</p>
+                </div>
+            </div>
+            <h5 class="title is-5">Install and Usage</h5>
             <div class="section-content">
                 <div class="content">
                     <p>Install Doctine:</p>
@@ -435,6 +481,10 @@
                 <div class="content">
                     <p>Setting up the database in the .env file:</p>
                     <div class="notification">DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name</div>
+                </div>
+                <div class="content ml-40">
+                    <p>If you don't use a password on the database, leave the db_password empty. Like this:</p>
+                    <div class="notification">DATABASE_URL=mysql://db_user:@127.0.0.1:3306/db_name</div>
                 </div>
             </div>
             <div class="section-content">
@@ -447,12 +497,20 @@
                 <div class="content">
                     <p>Create a migration:</p>
                     <div class="notification">php bin/console make:migration</div>
+                    <p class="ml-20">The command generates a new file in the folder Migrations. The file contains the SQL command that will be executed when the migrations is migrated. Tipp: Always check the file to see if the SQL command is what you want to execute</p>
                 </div>
             </div>
             <div class="section-content">
                 <div class="content">
                     <p>Run the migration files:</p>
                     <div class="notification">php bin/console doctrine:migrations:migrate</div>
+                    <p class="ml-20">The first time the migration is migrated, a new table is added to the database. Every migration is stored as an entry inside this table, and this makes it possible for Doctrine to detect if any changes have occurred since the last migration.</p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>See the status of the migrations:</p>
+                    <div class="notification">php bin/console doctrine:migrations:status</div>
                 </div>
             </div>
             <div class="section-content">
@@ -468,6 +526,57 @@
                     <div class="notification">php bin/console doctrine:schema:update --dump-sql --force</div>
                 </div>
             </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Doctrine annotations reference: (Here you can find all the annotations that can be used with doctrine)</p>
+                    <div class="notification"><a href="https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/annotations-reference.html">www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/annotations-reference.html</a></div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>See the entires in the database:</p>
+                    <div class="notification">php bin/console doctrine:query:sql "SELECT * FROM person"</div>
+                    <p class="ml-20">Note that the classnames are converted into snake case in the database</p>
+                </div>
+            </div>
+            <h5 class="title is-5">Save Entities</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>To persist an entity to the database, we need to use a service from Doctrine. In this case, its the EntitiyManagerInterface. This service gives us the methods 'persist($entity)' and 'flush()'. 'persist($entity)' says - this entity is ready to be saved, but it's not yet saved. We can run this method on many entities and then use 'flush()'. 'flush()' make sure the entity or entities get saved into the database.  The to step system was made to optimize savings onto the database.</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Persisting an entity inside a Controller
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Controller;<br><br>
+                            use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                            use Symfony\Component\HttpFoundation\Response;<br>
+                            use Symfony\Component\Routing\Annotation\Route;<br><br>
+
+                            class PersonController extends AbstractController { <br>
+                            <br>
+                            <span class="ml-20">/**</span><br>
+                            <span class="ml-20">* @Route("/admin/person/new")</span><br>
+                            <span class="ml-20">*/</span><br>
+                            <span class="ml-20">public function new(EntityManagerInterface $em){</span> <span class="is-italic has-text-weight-light">//EntityManagerInterface is type hinted</span><br>
+                            <span class="ml-40">$person = new Person():</span><br>
+                            <span class="ml-40">$person->setName('Hans');</span><br><br>
+
+                            <span class="ml-40">$em->persist($person)</span> <span class="is-italic has-text-weight-light">//Entity is ready to be saved</span> <br>
+                            <span class="ml-40">$em->flush()</span> <span class="is-italic has-text-weight-light">//Entity is saved</span><br><br>
+                            <span class="ml-40">return new Response(sprintf(
+                                        'Hiya! New Person id: #%d named: %s',</span><br>
+                                <span class="ml-60"> $person->getId(),</span><br>
+                                <span class="ml-60"> $person->getName()</span><br>
+                                <span class="ml-40">));</span><br>
+                            <span class="ml-20">} </span><br>
+                            <br>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- <h3 class="title is-3" id="#"></h3>
             <div class="section-content">
                 <div class="content">
@@ -475,6 +584,35 @@
                     <div class="notification"></div>
                 </div>
             </div> -->
+            <div class="heading-box">
+                <h3 class="title is-3" id="makerBundle"><strong>The Symfony MakerBundle</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Install and Usage</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install:</p>
+                    <div class="notification">
+                        composer require symfony/maker-bundle --dev
+                    </div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Create a new entity: (This command creates a new class in a directory called Entity and a corresponding repository class in a directory called Repository.)</p>
+                    <div class="notification">
+                        php bin/console make:entity
+                    </div>
+                    <p class="ml-20">Follow the instructions on the terminal: (This can be done for all the fields that need to be in the class. The fields are also added to the database table if you use doctrine.)</p>
+                    <ol>
+                        <li class="ml-40">Name of the class (will be used to create the database allso wif you use Doctrine)</li>
+                        <li class="ml-40">Property name</li>
+                        <li class="ml-40">Field type (Type ? to see a list of all field types)</li>
+                        <li class="ml-40">Field length</li>
+                        <li class="ml-40">Nullable</li>
+                    </ol>
+                </div>
+            </div>
         </div>
     </section>
 
