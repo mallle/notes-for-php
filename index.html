@@ -56,6 +56,8 @@
                             <li><a href="#controller">Controller</a></li>
                             <li><a href="#doctrine">Doctrine</a></li>
                             <li><a href="#makerBundle">MakerBundle</a></li>
+                            <li><a href="#makerBundle">Twig</a></li>
+                            <li><a href="#services">Services</a></li>
                         </ul>
                     </div>
                 </div>
@@ -551,7 +553,8 @@
                             namespace App\Controller;<br><br>
                             use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
                             use Symfony\Component\HttpFoundation\Response;<br>
-                            use Symfony\Component\Routing\Annotation\Route;<br><br>
+                            use Symfony\Component\Routing\Annotation\Route;<br>
+                            use Doctrine\ORM\EntityManagerInterface;<br><br>
 
                             class PersonController extends AbstractController { <br>
                             <br>
@@ -575,6 +578,54 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+            <h5 class="title is-5">Querying for Data</h5>
+            <div class="section-content">
+                <div class="content">
+                    <ol>
+                        <li class="ml-20">The first step ist to get the repository of the entity, here the service von Doctrine (EntityManagerInterface) is needed agin.
+                            (If you used the maker bundle to create your entity the repository automatically created).</li>
+                        <li class="ml-20">The repository gives you a lot of "out of the box" functions like "find()", "findOneBy()" or "getAll()".</li>
+                    </ol>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Querying the Database
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Controller;<br><br>
+                            use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                            use Symfony\Component\HttpFoundation\Response;<br>
+                            use Symfony\Component\Routing\Annotation\Route;<br>
+                            use Doctrine\ORM\EntityManagerInterface;<br><br>
+
+                            class PersonController extends AbstractController { <br>
+                            <br>
+                            <span class="ml-20">/**</span><br>
+                            <span class="ml-20">* @Route("/persons/{name}")</span><br>
+                            <span class="ml-20">*/</span><br>
+                            <span class="ml-20">public function show($name, EntityManagerInterface $em){</span> <br>
+                                <span class="ml-40">$repository = $em->getRepository(Person::class);</span><br>
+                                <span class="ml-40"> /** @var Person $person */</span><br>
+                                <span class="ml-40"> $person = $repository->findOneBy(['name' => $name]);</span><br><br>
+
+                                <span class="ml-40">//if Hans is not found throw an 404 error</span> <br>
+                                <span class="ml-40">if (!$person) {</span> <br>
+                                    <span class="ml-60">throw $this->createNotFoundException(sprintf('No Person with the name: "%s"', $name)));</span><br>
+                                <span class="ml-40">}</span><br><br>
+
+                                <span class="ml-40">return $this->render('person/show.html.twig', [ </span><br>
+                                         <span class="ml-60">'person' => $person,</span><br>
+                                <span class="ml-40">]);</span><br>
+                            <span class="ml-20">} </span><br>
+                            <br>
+                            }
+                        </div>
+                    </div>
+                    <p class="ml-20">The metod 'findOneBy()' fetches only one row from the database. In the example above where the name-field matches the value $name.</p>
+                    <p class="ml-20">Then we query the Database with Doctrine objects are always returned. It's then possible to access the properties of the object like this:</p>
+                    <div class="ml-20 notification">$person->getName();</div>
+                    <p class="ml-20">In the example above, a Twig-Template is rendered. It is possible because we can use the 'render()' method that the AbsctractController implements, and we can access it with the key-word '$this.'  </p>
                 </div>
             </div>
             <!-- <h3 class="title is-3" id="#"></h3>
@@ -613,14 +664,126 @@
                     </ol>
                 </div>
             </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="twig"><strong>Twig</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Twig Extensions</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Create a twig Extension using the maker-bundle:</p>
+                    <div class="notification">
+                        php bin/console make:twig-extension
+                    </div>
+                    <p>Create a twig Extension using the maker-bundle:</p>
+                    <div class="notification">
+                        php bin/console make:twig-extension
+                    </div>
+                    <p>The command generates a standard PHP class placed in the directory Twig that allows us to extend the filters that Twig provides. If we stick to one class, we can use the suggested class name 'AppExtension'.</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Twig Extension - content to Uppercase
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Twig;<br><br>
+                            use Twig\Extension\AbstractExtension;<br>
+                            use Twig\TwigFilter;<br>
+                            use Twig\TwigFunction;<br><br>
+
+                            class AppExtension extends AbstractExtension { <br>
+                            <br>
+
+                            <span class="ml-20"> public function getFilters() : array {</span> <br>
+                            <span class="ml-40">return [</span><br>
+                            <span class="ml-60">new TwigFilter('uppercase', [$this, 'processMarkdown'], ['is_safe' => ['html']]),</span><br>
+                            <span class="ml-40"> ];</span><br><br>
+
+                            <span class="ml-40">public function processMarkdown($value) {</span> <br>
+                            <span class="ml-60">return strtoupper($value);</span><br>
+                            <span class="ml-40">}</span><br><br>
+                            }
+                        </div>
+                    </div>
+                    <p>This alows us to use the filter named 'uppercase' in our Twig-files like this</p>
+                    <div class="notification">
+                        {{ person.name|uppercase }}
+                    </div>
+                    <p>This filter now returns the name of the person in UPPERCASE. The first argument being passed to the function 'cached_markdown'/'processMarkdown' is always the content on the left side of the pipe (|) in the twig-template. </p>
+                </div>
+            </div>
+            <div class="heading-box">
+                <h3 class="title is-3" id="services"><strong>Service</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>More to come!</p>
+                </div>
+            </div>
+            <h5 class="title is-5">Service Subscriber</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>To avoid a performance hit we should use Service Subscriber in these 3 cases</p>
+                    <ol>
+                        <li class="ml-20">Twig extensions</li>
+                        <li class="ml-20">Event Subscribers</li>
+                        <li class="ml-20">Security Voters</li>
+                    </ol>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Twig Extension with a service subscriber
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Twig;<br><br>
+                            use App\Service\MarkdownHelper;<br>
+                            use Twig\Extension\RuntimeExtensionInterface;<br><br>
+
+                            class AppRuntime implements RuntimeExtensionInterface{ <br>
+                            <br>
+                            <span class="ml-20">private $markdownHelper;</span> <br> <br>
+
+                            <span class="ml-20">public function __construct(MarkdownHelper $markdownHelper) {</span> <br>
+                            <span class="ml-40">$this->markdownHelper = $markdownHelper;</span><br>
+                            <span class="ml-20">}</span><br>
+                            <br>
+                            <span class="ml-20">public function processMarkdown($value) {</span> <br>
+                            <span class="ml-40">return $this->markdownHelper->parse($value);</span><br>
+                            <span class="ml-20">}</span><br>
+
+                            }
+
+                            <br>
+                            <br>
+
+                            namespace App\Twig;<br><br>
+                            use Twig\Extension\AbstractExtension;<br>
+                            use Twig\TwigFilter;<br><br>
+
+                            class AppExtension extends AbstractExtension { <br>
+                            <br>
+
+                            <span class="ml-20"> public function getFilters() : array {</span> <br>
+                            <span class="ml-40">return [</span><br>
+                            <span class="ml-60">new TwigFilter('cached_markdown', [AppRuntime::class, 'processMarkdown'], ['is_safe' => ['html']]),</span><br>
+                            <span class="ml-40"> ];</span><br><br>
+
+                            }
+                        </div>
+                    </div>
+                    <p class="ml-20">
+                        The 'normal' way of injecting the MarkdownHelper Service would be in the constructor in the AppExtention Class. Symfony instantiates the MarkdownHelper every time a Twig-Template gets rendered, even if the Twig-Template is not using the filter, that uses the MardownHelper.
+                        Therefore we should use a service subscriber as shown in the example above, there the MarkdownHelper is now only instantiated when a twig template that used the filter cached_markdown is rendered. </p>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer class="footer has-background-primary">
         <div class="content has-text-centered">
             <p class="has-text-white is-pulled-right">
-                <a class="has-text-white" href="legalnotice.html">Legal Notice and Privacy
-                    Policy</a></p>
+                <a class="has-text-white" href="legalnotice.html">Legal Notice and Privacy Policy</a>
+            </p>
         </div>
     </footer>
 </main>
