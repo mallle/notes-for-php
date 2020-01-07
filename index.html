@@ -626,8 +626,79 @@
                     <p class="ml-20">Then we query the Database with Doctrine objects are always returned. It's then possible to access the properties of the object like this:</p>
                     <div class="ml-20 notification">$person->getName();</div>
                     <p class="ml-20">In the example above, a Twig-Template is rendered. It is possible because we can use the 'render()' method that the AbsctractController implements, and we can access it with the key-word '$this.'  </p>
+                    <p>NOTE: A repository is automatically registered as a service. Therefore it's possible to autowire a repository in a controller like any other service, and it's not necessary to use the EntityManagerInterface to fetch the repository:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Autowire a repository
+                        </div>
+                        <div class="message-body is-family-code">
+                            use use App\Repository\PersonRepository; <br><br>
+
+                            class PersonController extends AbstractController{<br><br>
+                            <span class="ml-20">public function show($name, PersonRepository $repository){</span> <br>
+                            <br>
+                            <span class="ml-40"> $person = $repository->findOneBy(['name' => $name]);</span><br>
+                            <br>
+                            <span class="ml-40">return $this->render('person/show.html.twig', [ </span><br>
+                            <span class="ml-60">'person' => $person,</span><br>
+                            <span class="ml-40">]);</span><br>
+                            <br>
+                            <span class="ml-20">} </span><br>
+                            <br>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <h5 class="title is-5">Custom Queries</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Doctrine has it's own SQL-like language: DQL (Doctrine Query Language). In DQL the Table names are the class names and the column names are the property names. </p>
+                    <p>Custom queries can be written in a DQL string, or by using a query builder. The query builder creates DQL strings from different methods that can be chained to the query builder.</p>
+                        <div class="message is-black">
+                        <div class="message-header">
+                            Example: Custom query
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Repository;<br><br>
+                            use App\Entity\Person;<br>
+                            use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;<br>
+                            use Symfony\Bridge\Doctrine\RegistryInterface;<br><br>
+
+                            class PersonRepository extends ServiceEntityRepository { <br>
+                            <br>
+                            <span class="ml-20">/**</span><br>
+                            <span class="ml-20">* @return Person[]</span><br>
+                            <span class="ml-20">*/</span><br>
+                            <span class="ml-20">public function findAllPersonsOrderedByNewest(){</span> <br><br>
+                            <span class="ml-40">return $this->createQueryBuilder('p')</span><br>
+                            <span class="ml-60">->andWhere('p.exampleField = :val')</span><br>
+                            <span class="ml-60">->setParameter('val', $value)</span><br>
+                            <span class="ml-60">->orderBy('p.id', 'ASC')</span><br>
+                            <span class="ml-60">->setMaxResults(10)</span><br>
+                            <span class="ml-60">->getQuery()</span><br>
+                            <span class="ml-60">->getResult();</span><br>
+                            <span class="ml-20">}</span>
+                            <br>
+                            }
+                        </div>
+                    </div>
+                    <p>In the example above, the method 'andWhere()' is used. There is also a method called 'where()'. But using the 'where()' method, removes any previous 'where()' or 'andWhere()' methods. So it is safer only to use 'andWhere()'. </p>
+                    <p>In the 'andWhere' method, you can see a ':', this indicates that the next word is the name of a placeholder. The value of the placeholder can be set via the method 'setPrameter()'. So in the example above :val is a placeholder. The name val is used in the method setParameter, with a dynamic value (in this cased saved in the variable $value=).</p>
+                    <p>Get an array of results:</p>
+                    <div class="notification">
+                        ->getQuery() <br>
+                        ->getResults();<br>
+                    </div>
+                    <p>Get one or null results</p>
+                    <div class="notification">
+                        ->getQuery() <br>
+                        ->getOneOrNullResult();<br>
+                    </div>
+                </div>
+            </div>
+
             <!-- <h3 class="title is-3" id="#"></h3>
             <div class="section-content">
                 <div class="content">
