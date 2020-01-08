@@ -849,9 +849,45 @@
             <h5 class="title is-5">Install and Usage</h5>
             <div class="section-content">
                 <div class="content">
-                    <p>Install:</p>
+                    <p>Install: <a href="https://symfony.com/doc/current/bundles/StofDoctrineExtensionsBundle/index.html" target="_blank">https://symfony.com/doc/current/bundles/StofDoctrineExtensionsBundle/index.html</a></p>
                     <div class="notification">
                         composer require stof/doctrine-extensions-bundle
+                    </div>
+                    <p>Say yes to install the recipe, and enable the extension you want to use</p>
+                </div>
+                <div class="content">
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Configrue to use timestamp and slugable <br><small>config/packages/stof_doctrine_extensions.yaml</small>
+                        </div>
+                        <div class="message-body is-family-code">
+                            stof_doctrine_extensions: <br>
+                            <span class="ml-20">default_locale: en_US</span> <br>
+                            <span class="ml-20">orm:</span> <br>
+                            <span class="ml-40">default:</span><br>
+                            <span class="ml-60">timestampable: true</span><br>
+                            <span class="ml-60">sluggable: true</span><br>
+                        </div>
+                    </div>
+
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Use timestamp and slugable in the Entity
+                        </div>
+                        <div class="message-body is-family-code">
+                            use Gedmo\Mapping\Annotation as Gedmo;<br>
+                            use Gedmo\Timestampable\Traits\TimestampableEntity; <br><br>
+
+                            class Person { <br><br>
+                            <span class="ml-20">use TimestampableEntity;</span> <br><br>
+
+                            <span class="ml-20">/**</span> <br>
+                            <span class="ml-20">* @ORM\Column(type="string", length=100, unique=true)</span> <br>
+                            <span class="ml-20">* @Gedmo\Slug(fields={"title"})</span> <br>
+                            <span class="ml-20">*/</span> <br>
+                            <span class="ml-20">private $slug;</span> <br>
+
+                        </div>
                     </div>
                 </div>
             </div>
