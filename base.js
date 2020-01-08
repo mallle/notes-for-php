@@ -20,6 +20,26 @@ function scroll() {
 scroll();
 
 /*******************
+ * Button toTop
+ ********************/
+let toTopButton = document.getElementById("toTop");
+
+function scrollFunction() {
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        toTopButton.style.display = "block";
+    } else {
+        toTopButton.style.display = "none";
+    }
+}
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollToTop(){
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+
+/*******************
  * Accordion
  ********************/
 //Get all accordions

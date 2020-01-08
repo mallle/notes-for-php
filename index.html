@@ -55,8 +55,9 @@
                             <li><a href="#symfony-basics">Basics</a></li>
                             <li><a href="#controller">Controller</a></li>
                             <li><a href="#doctrine">Doctrine</a></li>
+                            <li><a href="#stofDoctrineExtensionsBundle">The StofDoctrineExtensionsBundle</a></li>
                             <li><a href="#makerBundle">MakerBundle</a></li>
-                            <li><a href="#makerBundle">Twig</a></li>
+                            <li><a href="#twig">Twig</a></li>
                             <li><a href="#services">Services</a></li>
                         </ul>
                     </div>
@@ -66,6 +67,7 @@
     </div>
 </nav>
 <main class="scrolling-box">
+    <button onclick="scrollToTop()" id="toTop" class="button is-primary">To Top!</button>
     <section class="section">
         <div class="container">
             <div class="heading-box">
@@ -564,6 +566,13 @@
                     <p class="ml-20">Note that the classnames are converted into snake case in the database</p>
                 </div>
             </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Delete an entire table and it's records</p>
+                    <div class="notification">php bin/console doctrine:query:sql "TRUNCATE TABLE table_name"</div>
+                </div>
+            </div>
+
             <h5 class="title is-5">Save Entities</h5>
             <div class="section-content">
                 <div class="content">
@@ -755,6 +764,77 @@
                 </div>
             </div>
 
+            <h5 class="title is-5">Update entities</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>If we want to update an existing entity, we only have to fall the method 'flush()' on the EntityManagerInterface.</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Update an entity
+                        </div>
+                        <div class="message-body is-family-code">
+                            <span class="ml-20">public function updatePerson(Person $person, EntityManagerInterface $em){</span> <br>
+                            <span class="ml-40">$person->setBirthyear(1983);</span><br>
+                            <span class="ml-40">$em->flush();</span><br>
+                            <span class="ml-20">}</span>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Doctrine Fixture Bundle</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install:</p>
+                    <div class="notification">composer require --dev orm-fixtures</div>
+                </div>
+                <div class="content">
+                    <p>Make a new fixture class:</p>
+                    <div class="notification">php bin/console make:fixtures</div>
+                    <p class="ml-20">Name the fixture like your entity + Fixtures (PersonFixtures)</p>
+                </div>
+                <div class="content">
+                    <p>Load the fixtures:</p>
+                    <div class="notification">php bin/console doctrine:fixtures:load</div>
+                    <p class="ml-20">IMPORTANT: this command empties the database before it loads the new data. DO NOT RUN THIS COMMAND IN PRODUCTION!</p>
+                </div>
+                <div class="content">
+                    <p>Install Faker to generate fake content: <a href="https://github.com/fzaninotto/Faker" target="_blank">https://github.com/fzaninotto/Faker</a></p>
+                    <div class="notification">composer require fzaninotto/faker --dev</div>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: How to initialize Faker and genereate 10 rows in the database
+                        </div>
+                        <div class="message-body is-family-code">
+                            use Faker\Generator; <br><br>
+                            abstract class BaseFixture extends Fixture { <br><br>
+
+                            <span class="ml-20">/** @var Generator */</span><br>
+                            <span class="ml-20">protected $faker; </span><br>
+                            <span class="ml-20">protected $manager; </span><br><br>
+                            <span class="ml-20">public function load(ObjectManager $manager) {</span> <br>
+                                <span class="ml-40">$this->faker = Factory::create();</span> <br>
+                                <span class="ml-40">$this->manager = $manager;</span> <br>
+                            <span class="ml-20">}</span>
+                            <br><br>
+                            }
+                            <br><br>
+                            class PersonFixtures extends BaseFixture {<br><br>
+
+                            <span class="ml-20">public function loadData(ObjectManager $manager) {</span><br><br>
+                                <span class="ml-40">$this->createMany(Person::class, 10, function(Person $person, $count) {</span><br>
+                                    <span class="ml-60">$person->setCreatedAt($this->faker->dateTimeBetween('-100 days', '-1 days')</span> <br>
+                                <span class="ml-40">});</span> <br>
+                            <span class="ml-20">}</span>
+                            <br><br>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- <h3 class="title is-3" id="#"></h3>
             <div class="section-content">
                 <div class="content">
@@ -762,6 +842,20 @@
                     <div class="notification"></div>
                 </div>
             </div> -->
+            <div class="heading-box">
+                <h3 class="title is-3" id="stofDoctrineExtensionsBundle"><strong>The StofDoctrineExtensionsBundle</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Install and Usage</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install:</p>
+                    <div class="notification">
+                        composer require stof/doctrine-extensions-bundle
+                    </div>
+                </div>
+            </div>
+
             <div class="heading-box">
                 <h3 class="title is-3" id="makerBundle"><strong>The Symfony MakerBundle</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
