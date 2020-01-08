@@ -420,6 +420,29 @@
             </div>
             <div class="section-content">
                 <div class="content">
+                    <p>Start a new Symfony projcet:</p>
+                    <div class="notification">composer create-project symfony/skeleton <i>project-name</i></div>
+                    <p class="ml-20">A new symfony project does not come with a git repository just add one with the command '<i>git init'</i>, and remember to add <i>/'.idea/'</i>
+                        to the <i>.gitignore</i> if you use phpstorm. </p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Installing a Server:</p>
+                    <div class="notification">composer require server</div>
+                    <p class="ml-20"> Run the Server:</p>
+                    <div class="notification ml-20">php ./bin/console server:run</div>
+
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Get a list of all of the bin/console commands (if you add new commands to the src/console directory these will also show up here):</p>
+                    <div class="notification">php ./bin/console</div>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
                     <p>Get a list of all Symfony Container Services:</p>
                     <div class="notification">php bin/console debug:container</div>
                 </div>
@@ -695,6 +718,39 @@
                     <div class="notification">
                         ->getQuery() <br>
                         ->getOneOrNullResult();<br>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="title is-5">ParamConverter: Automatically Querying</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Doctrine has a Param Converter - this allows us to fetch a single entity without having to query the database our self. Just type-hint the entity that we need to found, and doctrine does work for us.
+                        The only thing that has to match is the wildcard in the URL (/{id} or /{name}), and the property of the entity.
+                        If an entity is not found, a 404-error is automatically thrown before the controller is called.
+                        Read more here: <a href="https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html" target="_blank">https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html</a>
+                    </p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Param converter
+                        </div>
+                        <div class="message-body is-family-code">
+                            <span class="ml-20">/**</span><br>
+                            <span class="ml-20">* Fetch via primary key because {id} is in the route.</span><br>
+                            <span class="ml-20">* </span><br>
+                            <span class="ml-20">* @Route("/persons/{id}")</span><br>
+                            <span class="ml-20">*/</span><br>
+                            <span class="ml-20">public function showByPk(Person $person){</span> <br>
+                            <span class="ml-20">}</span>
+                            <br><br>
+                            <span class="ml-20">/**</span><br>
+                            <span class="ml-20">* Perform a findOneBy() where the name property matches {name}.</span><br>
+                            <span class="ml-20">* </span><br>
+                            <span class="ml-20">* @Route("/persons/{name}")</span><br>
+                            <span class="ml-20">*/</span><br>
+                            <span class="ml-20">public function show(Person $person){</span> <br>
+                            <span class="ml-20">}</span><br>
+                        </div>
                     </div>
                 </div>
             </div>
