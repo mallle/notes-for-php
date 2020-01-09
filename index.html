@@ -551,7 +551,7 @@
                             }
                         </div>
                     </div>
-                    <p>When we update require a new recipe or package, 3 main files get updated. The composer.json and composer.lock, but also the symfony.lock file gets updated. Sometimes, we also get a new config file that makes it possible to configure the new package.</p>
+                    <p>When we update require a new recipe or package, 3 main files get updated. The composer.json and composer.lock, but also the symfony.lock file gets updated, if we install a bundle the config/bundles.php also get updated. Sometimes, we also get a new config file that makes it possible to configure the new package.</p>
                     <p>So what Flex does is to execute the recipe from the package that was required. Recipes can add configuration files, modify files (like the .gitignore file) or create directories. So Flex makes it possible to use a new package instantly without any extra setup.</p>
                 </div>
             </div>
@@ -996,6 +996,116 @@
                 <h3 class="title is-3" id="twig"><strong>Twig</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install</p>
+                    <div class="notification">
+                        composer require twig
+                    </div>
+                </div>
+                <div class="content">
+                    <p>To be able to render a template in your controller, let the controller extend the AbstractControlle - like in the example beneath:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: render html from the controller
+                        </div>
+                        <div class="message-body is-family-code">
+                            use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; <br><br>
+
+                            class PersonController extends AbstractController {<br><br>
+                            <span class="ml-20">public function show($name){</span> <br>
+                            <span class="ml-40"> return $this->render('person/show.html.twig', [</span> <br>
+                            <span class="ml-60"> 'name' => $name),</span> <br>
+                            <span class="ml-40"> ]);</span> <br>
+                            <span class="ml-20">}</span><br>
+                            }
+                        </div>
+                    </div>
+                    <p class="ml-20">NOTE: Html files should have the extension .html.twig </p>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Syntax</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p><a href="https://twig.symfony.com/doc/2.x/" target="_blank">https://twig.symfony.com/doc/2.x/</a></p>
+                    <p>Comments - {# #}</p>
+                    <div class="notification">
+                        {# comment #}
+                    </div>
+                    <p>Render text from a variable - {{ }}</p>
+                    <div class="notification">
+                        {{ name }} <br>
+                        {{ variableName.method }} <br>
+                        {{ person.name }} <br>
+                    </div>
+                    <p>Tags - {% %}</p>
+                    <div class="notification">
+                        {% tagName %}<br>
+                        {% if %} {% endif %}
+                    </div>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: for-loop in twig
+                        </div>
+                        <div class="message-body is-family-code">
+                            &lt;ul&gt;<br>
+                            <span class="ml-20">{% for person in persons %}</span> <br>
+                            <span class="ml-40">&lt;li&#62;{{ person }}<&#60;/li&gt;</span> <br>
+                            <span class="ml-20">{% endfor %}</span> <br>
+                            &lt;/ul&gt;<br>
+                        </div>
+                    </div>
+                    <p>Filter - |</p>
+                    <div class="notification">
+                        {{ persons | length }}
+                    </div>
+                        <p class="ml-20">NOTE: It is possible to add multiple filters after each other.</p>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Template Inheritance</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>By using the tag called extends, its possible to extend one template from another template</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: extend template 1/2 <small>templates/base.html.twig</small>
+                        </div>
+                        <div class="message-body is-family-code">
+                            &lt;!DOCTYPE html&gt; <br>
+                            &lt;html&gt;<br>
+                            <span class="ml-20">&lt;head&gt;</span><br>
+                            <span class="ml-40">&lt;meta charset="UFT-8"&gt;</span><br>
+                            <span class="ml-40">&lt;title&gt;{% block title %}Welcome!{% endblock %}&lt;title&gt;</span><br>
+                            <span class="ml-40">{% block stylesheets %}{% endblock %}</span><br>
+                            <span class="ml-20">&lt;/head&gt;</span><br>
+                            <span class="ml-20">&lt;body&gt;</span><br>
+                            <span class="ml-40">{% block body %}{% endblock %}</span><br>
+                            <span class="ml-40">{% block javascripts %}{% endblock %}</span><br>
+                            <span class="ml-20">&lt;/body&gt;</span><br>
+                            &lt;/html&gt;
+                        </div>
+                        <div class="message-header">
+                            Example: extend template 2/2 <small>templates/person/show.html.twig</small>
+                        </div>
+                        <div class="message-body is-family-code">
+                            {% extends 'base.html.twig' %}<br>
+                            {% block body %}<br>
+                                <span class="ml-20">&lt;h1&gt;{{ title }}&lt;/h1&gt;</span><br>
+                                <span class="ml-20"> &lt;ul&gt;</span><br>
+                                <span class="ml-40">{% for person in persons %}</span> <br>
+                                <span class="ml-60">&lt;li&gt;{{ person }}&#60;/li&gt;</span> <br>
+                                <span class="ml-40">{% endfor %}</span> <br>
+                                <span class="ml-20"> &lt;/ul&gt;</span><br>
+                            {% endblock %}<br>
+                        </div>
+                    </div>
+                    <p>The file 'templates/person/show.html.twig', extends the block called 'body' from the 'templates/base.html.twig' file.</p>
+
+                </div>
+            </div>
+
             <h5 class="title is-5">Twig Extensions</h5>
             <div class="section-content">
                 <div class="content">
