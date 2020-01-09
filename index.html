@@ -55,6 +55,7 @@
                             <li><a href="#symfony-basics">Basics</a></li>
                             <li><a href="#controller">Controller and Routing</a></li>
                             <li><a href="#flex">Flex</a></li>
+                            <li><a href="#profiler">Profiler</a></li>
                             <li><a href="#doctrine">Doctrine</a></li>
                             <li><a href="#stofDoctrineExtensionsBundle">The StofDoctrineExtensionsBundle</a></li>
                             <li><a href="#makerBundle">MakerBundle</a></li>
@@ -525,6 +526,77 @@
                     </div>
                 </div>
             </div>
+            <h5 class="title is-5">Generated URLs</h5>
+            <div class="section-content">
+                <p>Get list of all routes available in your application</p>
+                <div class="notfication">
+                    ./bin/console debug:router
+                </div>
+                <p>Using named routes to generate urls in the template</p>
+                <ul>
+                    <li>Give the route a name</li>
+                    <li>Use the function 'path('name_of_route')' in your twig template and pass the name of the route as argument</li>
+                </ul>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Generate a named route 1/2<small>PersonController.php</small>
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Controller;<br><br>
+                        use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                        use Symfony\Component\Routing\Annotation\Route;<br><br>
+
+                        class PersonController extends AbstractController { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @Route("/", name="app_homepage")</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function homepage(){</span><br>
+                        <span class="ml-40">return this->render('homepage.html.twig');</span><br>
+                        <span class="ml-20">} </span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Use the named route in a twig template 2/2 <small>homepage.html.twig</small>
+                    </div>
+                    <div class="message-body is-family-code">
+                        &lt;a href="{{ path('app_homepage') }}"&gt;
+                    </div>
+                </div>
+                <p>Using named routes to generate dynamic urls in the templates:</p>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Generate a named route with a wildcard 1/2<small>PersonController.php</small>
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Controller;<br><br>
+                        use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                        use Symfony\Component\Routing\Annotation\Route;<br><br>
+
+                        class PersonController extends AbstractController { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @Route("/person/{id}", name="app_person_show")</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function show(){</span><br>
+                        <span class="ml-40">return this->render('show.html.twig');</span><br>
+                        <span class="ml-20">} </span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Use the named route in a twig template, and add the wildcard to the 'path()' function 2/2 <small>homepage.html.twig</small>
+                    </div>
+                    <div class="message-body is-family-code">
+                        &lt;a href="{{ path('app_person_show', { id: person.id }) }}"&gt;
+                    </div>
+                </div>
+            </div>
 
             <div class="heading-box">
                 <h3 class="title is-3" id="flex"><strong>Flex</strong></h3>
@@ -555,6 +627,49 @@
                     <p>So what Flex does is to execute the recipe from the package that was required. Recipes can add configuration files, modify files (like the .gitignore file) or create directories. So Flex makes it possible to use a new package instantly without any extra setup.</p>
                 </div>
             </div>
+
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="profiler"><strong>Profiler, Debugging and Packs</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Profiler</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install:</p>
+                    <div class="notification">composer require profiler --dev</div>
+                </div>
+            </div>
+            <h5 class="title is-5">Debugging and Packs</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install:</p>
+                    <div class="notification">composer require debug --dev</div>
+                    <p>Unpack package (debug is a package)</p>
+                    <div class="notification">composer unpack debug</div>
+                    <p>The unpack command will unpack the package and add all libraries one at a time, this way we can control each version of the libraries or even delete unnecessary packages/libraries.</p>
+                </div>
+            </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="profiler"><strong>Assets</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>Install:</p>
+                    <div class="notification">composer require asset</div>
+                </div>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: link to an assets placed in the public directory
+                    </div>
+                    <div class="message-body is-family-code">
+                        &lt;link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}"&gt;
+                    </div>
+                </div>
+            </div>
+
 
             <div class="heading-box">
                 <h3 class="title is-3" id="doctrine"><strong>Doctrine</strong></h3>
@@ -1149,6 +1264,8 @@
                     <p>This filter now returns the name of the person in UPPERCASE. The first argument being passed to the function 'cached_markdown'/'processMarkdown' is always the content on the left side of the pipe (|) in the twig-template. </p>
                 </div>
             </div>
+
+
             <div class="heading-box">
                 <h3 class="title is-3" id="services"><strong>Service</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
