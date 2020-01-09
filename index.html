@@ -53,7 +53,8 @@
                     <div class="content">
                         <ul>
                             <li><a href="#symfony-basics">Basics</a></li>
-                            <li><a href="#controller">Controller</a></li>
+                            <li><a href="#controller">Controller and Routing</a></li>
+                            <li><a href="#flex">Flex</a></li>
                             <li><a href="#doctrine">Doctrine</a></li>
                             <li><a href="#stofDoctrineExtensionsBundle">The StofDoctrineExtensionsBundle</a></li>
                             <li><a href="#makerBundle">MakerBundle</a></li>
@@ -457,13 +458,26 @@
             </div>
 
             <div class="heading-box">
-                <h3 class="title is-3" id="controller"><strong>Controller</strong></h3>
+                <h3 class="title is-3" id="controller"><strong>Controller and Routing</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
+            <h5 class="title is-5">About</h5>
             <div class="section-content">
+                <div class="content">
+                   <p>Route: Configuration that defines the url for a page.</p>
+                   <p>Controller: Has methods where the content for a specific route is defined.</p>
+                </div>
+            </div>
+            <div class="section-content">
+                <div class="content">
+                    <p>To use routes with annotations we need to install annotations first.</p>
+                    <p>Install annotations:</p>
+                    <div class="notification">composer require annotations</div>
+                    <p class="ml-20">Annotations are PHP comments that are interpreted as configuration instead of a comment. </p>
+                </div>
                 <div class="message is-black">
                     <div class="message-header">
-                        Example: Controller with routing
+                        Example: Controller with routing using annotations
                     </div>
                     <div class="message-body is-family-code">
                         namespace App\Controller;<br><br>
@@ -474,15 +488,71 @@
                         class PersonController extends AbstractController { <br>
                         <br>
                         <span class="ml-20">/**</span><br>
-                        <span class="ml-20">* @Route("/admin/person/new")</span><br>
+                        <span class="ml-20">* @Route("/admin/persons/new")</span><br>
                         <span class="ml-20">*/</span><br>
                         <span class="ml-20">public function new(){</span><br>
                         <span class="ml-40">return new Response('Insert new Person');</span><br>
                         <span class="ml-20">} </span><br>
                         <br>
                         }
-
                     </div>
+                </div>
+                <p class="ml-20">Inside a method in a controller, we can do more or less everything we want, query the database, make an API call or render a template. The only thing the is needed is: <strong>the controller must return a Symfony Response object.</strong></p>
+            </div>
+            <h5 class="title is-5">Routes with wildcards</h5>
+            <div class="section-content">
+                <p>To make it possible to visit each person on a website with each a different id, we can use a wildcard. Wildcards are written in {} in the route. The wildcard is then available as an argument in the method.  </p>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Routing using a wildcard
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Controller;<br><br>
+                        use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                        use Symfony\Component\HttpFoundation\Response;<br>
+                        use Symfony\Component\Routing\Annotation\Route;<br><br>
+
+                        class PersonController extends AbstractController { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @Route("/persons/{id}")</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function show($id){</span><br>
+                        <span class="ml-40">return new Response('Person with id: ' . $id);</span><br>
+                        <span class="ml-20">} </span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="flex"><strong>Flex</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">About</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Flex is Composer pugin, and it helps you manage Symfony applications. Flex is built on Symfony Recipes. Symfony Recipies are a set of automated instructions that helps you integrate third-party packages into an existing Symfony application <a href="https://flex.symfony.com/" target="_blank">https://flex.symfony.com/</a>.</p>
+                    <p>Flex comes with an alias system, that allows you to use aliases when installing a new Symfony recipe. You browse all recipes on the webseite listed above.</p>
+                    <p>Symfony comes with Flex and should already be listed in the composer.jsson file</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: composer.json file with flex
+                        </div>
+                        <div class="message-body is-family-code">
+                            {<br>
+                            <span class="ml-20">"require": {</span><br>
+                                <span class="ml-40">...,</span><br>
+                                <span class="ml-40">"symfony/flex": "^1.0",</span><br>
+                                <span class="ml-40">...,</span><br>
+                            <span class="ml-20">}, </span><br>
+                            <span class="ml-20">...,</span><br>
+                            }
+                        </div>
+                    </div>
+                    <p>When we update require a new recipe or package, 3 main files get updated. The composer.json and composer.lock, but also the symfony.lock file gets updated. Sometimes, we also get a new config file that makes it possible to configure the new package.</p>
+                    <p>So what Flex does is to execute the recipe from the package that was required. Recipes can add configuration files, modify files (like the .gitignore file) or create directories. So Flex makes it possible to use a new package instantly without any extra setup.</p>
                 </div>
             </div>
 
