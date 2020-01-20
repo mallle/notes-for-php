@@ -56,6 +56,7 @@
                             <li><a href="#controller">Controller and Routing</a></li>
                             <li><a href="#flex">Flex</a></li>
                             <li><a href="#profiler">Profiler</a></li>
+                            <li><a href="#assets">Assets</a></li>
                             <li><a href="#doctrine">Doctrine</a></li>
                             <li><a href="#stofDoctrineExtensionsBundle">The StofDoctrineExtensionsBundle</a></li>
                             <li><a href="#makerBundle">MakerBundle</a></li>
@@ -552,7 +553,7 @@
                         <span class="ml-20">* @Route("/", name="app_homepage")</span><br>
                         <span class="ml-20">*/</span><br>
                         <span class="ml-20">public function homepage(){</span><br>
-                        <span class="ml-40">return this->render('homepage.html.twig');</span><br>
+                        <span class="ml-40">return $this->render('homepage.html.twig');</span><br>
                         <span class="ml-20">} </span><br>
                         <br>
                         }
@@ -582,7 +583,7 @@
                         <span class="ml-20">* @Route("/person/{id}", name="app_person_show")</span><br>
                         <span class="ml-20">*/</span><br>
                         <span class="ml-20">public function show(){</span><br>
-                        <span class="ml-40">return this->render('show.html.twig');</span><br>
+                        <span class="ml-40">return $this->render('show.html.twig');</span><br>
                         <span class="ml-20">} </span><br>
                         <br>
                         }
@@ -597,6 +598,32 @@
                     </div>
                 </div>
             </div>
+            <h5 class="title is-5">Return JSON from a controller</h5>
+            <div class="section-content">
+                <p>It's also possible to return json to a route from a controller and make the route only available to POST-request forinstance.</p>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Generate a named route with a wildcard 1/2<small>PersonController.php</small>
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Controller;<br><br>
+                        use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;<br>
+                        use Symfony\Component\Routing\Annotation\Route;<br><br>
+
+                        class PersonController extends AbstractController { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @Route("/person/{id}/friend", name="app_person_friend", methods={"POST"})</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function isFriend(){</span><br>
+                        <span class="ml-40">return $this->json(['friend' => TRUE]);</span><br>
+                        <span class="ml-20">} </span><br>
+                        <br>
+                        }
+                    </div>
+                </div>
+            </div>
+
 
             <div class="heading-box">
                 <h3 class="title is-3" id="flex"><strong>Flex</strong></h3>
@@ -652,7 +679,7 @@
             </div>
 
             <div class="heading-box">
-                <h3 class="title is-3" id="profiler"><strong>Assets</strong></h3>
+                <h3 class="title is-3" id="assets"><strong>Assets</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
             <div class="section-content">
@@ -669,7 +696,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="heading-box">
                 <h3 class="title is-3" id="doctrine"><strong>Doctrine</strong></h3>
@@ -873,7 +899,7 @@
                 <div class="content">
                     <p>Doctrine has it's own SQL-like language: DQL (Doctrine Query Language). In DQL the Table names are the class names and the column names are the property names. </p>
                     <p>Custom queries can be written in a DQL string, or by using a query builder. The query builder creates DQL strings from different methods that can be chained to the query builder.</p>
-                        <div class="message is-black">
+                    <div class="message is-black">
                         <div class="message-header">
                             Example: Custom query
                         </div>
@@ -913,9 +939,103 @@
                         ->getQuery() <br>
                         ->getOneOrNullResult();<br>
                     </div>
+
+                    <p>Make left joins:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Left Join
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Repository;<br><br>
+                            use App\Entity\Person;<br>
+                            use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;<br>
+                            use Symfony\Bridge\Doctrine\RegistryInterface;<br><br>
+
+                            class PersonRepository extends ServiceEntityRepository { <br>
+                            <br>
+                            <span class="ml-20">/**</span><br>
+                            <span class="ml-20">* @return Person[]</span><br>
+                            <span class="ml-20">*/</span><br>
+                            <span class="ml-20">public function findAllPersonsOrderedByNewest(){</span> <br><br>
+                            <span class="ml-40">return $this->createQueryBuilder('p')</span><br>
+                            <span class="ml-60">->leftJoin('p.friends', 'f')</span><br>
+                            <span class="ml-60">->andWhere('p.name = :name')</span><br>
+                            <span class="ml-60">->setParameter('name', $name)</span><br>
+                            <span class="ml-60">->getQuery()</span><br>
+                            <span class="ml-60">->getResult();</span><br>
+                            <span class="ml-20">}</span>
+                            <br>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
+            <h5 class="title is-5">Lazy loading and how to avoid it on joins</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Lazy loading von queries means that a query isn't called before it's data is needed. Because of that, more than one query is sent to the database,  to prevent that when using joins, we can use an extra method on the query builder. The method is called '->addSelect('aliasFromJoin')'. </p>
+                </div>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: Get avg form only one field
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Repository;<br><br>
+                        use App\Entity\Person;<br>
+                        use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;<br>
+                        use Symfony\Bridge\Doctrine\RegistryInterface;<br><br>
 
+                        class PersonRepository extends ServiceEntityRepository { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @return Person[]</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function findAllPersonsOrderedByNewest(Friend $friend){</span> <br><br>
+                        <span class="ml-40">return $this->createQueryBuilder('p')</span><br>
+                        <span class="ml-60">->andWhere('p.friends = :friend')</span><br>
+                        <span class="ml-60">->setParameter('friend', $friend)</span><br>
+                        <span class="ml-60">->select('AVG(p.age) as avgAge')</span><br>
+                        <span class="ml-60">->getQuery()</span><br>
+                        <span class="ml-60">->getSingleScalarResult();</span><br>
+                        <span class="ml-20">}</span>
+                        <br>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <h5 class="title is-5">Select only spezific fields</h5>
+            <div class="section-content">
+                <div class="content">
+                </div>
+                <div class="message is-black">
+                    <div class="message-header">
+                        Example: addSelect('alias') on joins
+                    </div>
+                    <div class="message-body is-family-code">
+                        namespace App\Repository;<br><br>
+                        use App\Entity\Person;<br>
+                        use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;<br>
+                        use Symfony\Bridge\Doctrine\RegistryInterface;<br><br>
+
+                        class PersonRepository extends ServiceEntityRepository { <br>
+                        <br>
+                        <span class="ml-20">/**</span><br>
+                        <span class="ml-20">* @return Person[]</span><br>
+                        <span class="ml-20">*/</span><br>
+                        <span class="ml-20">public function findAllPersonsOrderedByNewest(){</span> <br><br>
+                        <span class="ml-40">return $this->createQueryBuilder('p')</span><br>
+                        <span class="ml-60">->leftJoin('p.friends', 'f')</span><br>
+                        <span class="ml-60">->addSelect('f')</span><br>
+                        <span class="ml-60">->getQuery()</span><br>
+                        <span class="ml-60">->getResult();</span><br>
+                        <span class="ml-20">}</span>
+                        <br>
+                        }
+                    </div>
+                </div>
+                <p>'getSingleScalarResult()' lets you return a single row that has only a single column, just the number or string.</p>
+            </div>
             <h5 class="title is-5">ParamConverter: Automatically Querying</h5>
             <div class="section-content">
                 <div class="content">
@@ -1217,7 +1337,18 @@
                         </div>
                     </div>
                     <p>The file 'templates/person/show.html.twig', extends the block called 'body' from the 'templates/base.html.twig' file.</p>
-
+                    <p>Add additional information to an existing block</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: extend a block with additional information <small>templates/person/show.html.twig</small>
+                        </div>
+                        <div class="message-body is-family-code">
+                            {% block javascripts %}<br>
+                                 <span class="ml-20">{{ parent() }}</span> <span class="is-italic has-text-weight-light">//Adds the information from the parent block</span><br>
+                                <span class="ml-20">&lt;script src="{{ asset('js/article_show.js') }}"&gt;&lt;/script&gt;</span><br>
+                            {% endblock %}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -1267,14 +1398,20 @@
 
 
             <div class="heading-box">
-                <h3 class="title is-3" id="services"><strong>Service</strong></h3>
+                <h3 class="title is-3" id="services"><strong>Services</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
+            <h5 class="title is-5">About</h5>
             <div class="section-content">
                 <div class="content">
-                    <p>More to come!</p>
+                    <p>A service is an object that does some work for you, for instance, there is a service that genereates URLs or one that makes sending emails possible. The services can also be seen as tools. Tools you can use in your application. </p>
+                    <p>Get a list of all services:</p>
+                    <div class="notification">
+                        ./bin/console debug:autowiring
+                    </div>
                 </div>
             </div>
+
             <h5 class="title is-5">Service Subscriber</h5>
             <div class="section-content">
                 <div class="content">
