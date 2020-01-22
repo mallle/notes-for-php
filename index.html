@@ -425,6 +425,7 @@
             </div>
             <div class="section-content">
                 <div class="content">
+                    <p>Symfony is just a set of services and routes!</p>
                     <p>Start a new Symfony projcet:</p>
                     <div class="notification">composer create-project symfony/skeleton <i>project-name</i></div>
                     <p class="ml-20">A new symfony project does not come with a git repository just add one with the command '<i>git init'</i>, and remember to add <i>/'.idea/'</i>
@@ -1398,17 +1399,75 @@
 
 
             <div class="heading-box">
-                <h3 class="title is-3" id="services"><strong>Services</strong></h3>
+                <h3 class="title is-3" id="services"><strong>Services, Bundles and Autowiring</strong></h3>
                 <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
             </div>
+
             <h5 class="title is-5">About</h5>
             <div class="section-content">
                 <div class="content">
-                    <p>A service is an object that does some work for you, for instance, there is a service that genereates URLs or one that makes sending emails possible. The services can also be seen as tools. Tools you can use in your application. </p>
-                    <p>Get a list of all services:</p>
+                    <p>A service is an object that does some work for you; for instance, there is a service that generates URLs or one that makes sending emails possible. The services can also be seen as tools. Tools you can use in your application.</p>
+                    <p>Get a list of most used services:</p>
                     <div class="notification">
                         ./bin/console debug:autowiring
                     </div>
+                    <p>Get a list of all services:</p>
+                    <div class="notification">
+                        ./bin/console debug:container --show-private
+                    </div>
+                    <p>Every service is stored inside another object called 'container'. Inside the container, each service has an internal name. Services are registered inside the container with help from bundles. Bundles are seen as the plugin system for Symfony.</p>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Bundels</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Bundles mostly contains two things, some PHP classes and configuration what adds one or more new services to the application.</p>
+                    <p>All bundles are registered in the file config/bundles.php, and here you can specify in what environment the bundle is loaded (all, dev, test, or prod).</p>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Alias and Autwiring</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>We saw that the command './bin/console debug:autowiring' gives us a list of all serivces. Under each service, there is written an alias. In Symfony, each service has a unique name, and that's the alias that is written under each service.  If to entires/Interfaces has the same alias, it means that both entries in the list return the same obejct when type hinted. </p>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Configuration of a bundle</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Most bundles can also be configured and this is done in YAML files.</p>
+                    <p>To find out how a bundle can be configured we can use the documentation for the bundle or use the following command:</p>
+                    <div class="notification">
+                        ./bin/console config:dump &lt;bundleName&gt;
+                    </div>
+                    <p>This command gives us a YAML example of all the configuration options for this specific bundle. </p>
+                    <p>The configuration file should be placed inside the directory config/packages. Here you should create a new file, it is not important what you name the file, but a good rule ist to make it the same as the root of your YAML file. An example would for the KnpMarkdownBundle is knp_markdown.yaml (If you run the config from above, you can see that the root of the YAML file is knp_markdown). </p>
+                    <p>Normal Symfony notices any new config files and applies the configuration. If that's not the case, run the following command:</p>
+                    <div class="notification">
+                        ./bin/console cache:clear
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="title is-5">Changing environment</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>We have 3 different environments out of the box with Symfony: dev, prod, and test, but its also possible to add custom environments!</p>
+                    <p>To change to a different environment, we need to change a key in the .env file, and if we change to production, it looks this way:</p>
+                    <div class="notification">
+                        APP_ENV=prod
+                    </div>
+                    <p>Because the internal cache system is not automatically rebuilt when changing the environment from development (dev) to production (prod) we need to run the following command:</p>
+                    <div class="notification">
+                        ./bin/console cache:clear
+                    </div>
+                    <p>The following command adds all the cache files that Symfony needs. When you run this command while deploying the first request ist faster, and makes ist possible to deploy to a read-only filesystem.</p>
+                    <div class="notification">
+                        ./bin/console cache:warmup
+                    </div>
+
                 </div>
             </div>
 
