@@ -1526,6 +1526,84 @@
                         Therefore we should use a service subscriber as shown in the example above, there the MarkdownHelper is now only instantiated when a twig template that used the filter cached_markdown is rendered. </p>
                 </div>
             </div>
+            <h5 class="title is-5">Voters</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>Voters are a way to check permissions, and they can be used when we want to restrict who is allowed to see/edit/update/... a page/content based on more complex logic than just using roles. One situation could be that only the user and a admin are allowed to see s specific page. So voters are used to checking if a user has permission to do what he requests. </p>
+                    <p>When the method isGranted() or denyAccessUnlessGranted() is hit, all voters are called. Symfony already has two build-in voters, the RoleVoter and the AuthenticatedVoter.  The RoleVoter handles very string passed to the two functions isGranted() or denyAccessUnlessGranted() that starts with 'ROLE_', and the AuthenticatedVoter handle strings starting with 'IS_AUTHENTICATED_'.
+                       The RoleVoter checks if a user has the desired role that is requested, and the AuthenticatedVoter checks how authenticated the user is (FULLY, REMEMBERED, ANONYMOUSLY). The string passed to the isGranted() or denyAccessUnlessGranted() methods is called the permission attribute. By using permission attributes without ROLE_ or IS_AUTHENTICATED makes it possible for us to handle these permissions in a our own voters. </p>
+                    <p>Create a new voter with the following:</p>
+                    <div class="notification">
+                        php bin/console make:voter
+                    </div>
+                    <p>Add the following to the services.yaml file</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Add voters to services.yaml
+                        </div>
+                        <div class="message-body is-family-code">
+                            Entity\Security\Voter\: <br>
+                            <span class="ml-20">resource: '../src/Entity/Security/Voter'</span> <br>
+                            <span class="ml-20">tag:</span> <br>
+                            <span class="ml-40">- { name: security.voter }</span><br>
+                        </div>
+                    </div>
+                    <p>Example voter</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: For a voter for the class Person
+                        </div>
+                        <div class="message-body is-family-code">
+                            namespace App\Security\Voter; <br><br>
+
+                            use App\Entity\Person;<br>
+                            use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;<br>
+                            use Symfony\Component\Security\Core\Authorization\Voter\Voter;<br>
+                            use Symfony\Component\Security\Core\User\UserInterface;<br><br>
+
+                            class ArticleVoter extends Voter {<br><br>
+
+                            <span class="ml-20">protected function supports($attribute, $subject){</span> <br>
+                            <span class="ml-40">return in_array($attribute, ['EDIT', 'SHOW']) && $subject instanceof Person;</span> <br>
+                            <span class="ml-20">}</span><br><br>
+
+                            <span class="ml-20">protected function voteOnAttribute($attribute, $subject, TokenInterface $token){</span> <br>
+                            <span class="ml-40">$user = $token->getUser();</span> <br><br>
+                            <span class="ml-40"> if (!$user instanceof UserInterface) {</span> <br>
+                            <span class="ml-60">return false;</span> <br>
+                            <span class="ml-40">}</span> <br>
+
+                            <span class="ml-40">switch ($attribute) {</span> <br>
+                            <span class="ml-60">case 'EDIT':</span> <br>
+                            <span class="ml-80">return FALSE;</span> <br>
+                            <span class="ml-80">break;</span> <br>
+                            <span class="ml-60">case 'SHOW':</span> <br>
+                            <span class="ml-80">return EDIT;</span> <br>
+                            <span class="ml-80">break;</span> <br>
+                            <span class="ml-40">}</span> <br>
+                            <span class="ml-20">}</span> <br>
+                            }<br><br>
+                        </div>
+                    </div>
+                    <p>Example on how to call the new voter</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: Use isGranted in Controller to check if user may edit the Person
+                        </div>
+                        <div class="message-body is-family-code">
+
+                            public function edit(Person $person){<br>
+                            <span class="ml-20">if (!$this->isGranted('EDIT', $title)) {</span> <br>
+                            <span class="ml-40">throw $this->createAccessDeniedException('No access!');</span> <br>
+                            <span class="ml-20">}</span> <br>
+                            <span class="ml-20">var_dump($person)</span> <br>
+                            }<br><br>
+                        </div>
+                    </div>
+                    <p>The method supports() is first hit. It checks if the attribute 'EDIT' added in the method isGranted('EDIT', $person), is part of the access attributes (here the attirbutes are EDIT and VIEW), and then its checks if the object added is a Person.</p>
+                    <p>Then the method voteOnAttributes() are hit. The fist thing that's checked is if the current user is not anonymous. After that, the conditions for the attributes are checked. If the isGranted() is called with the 'EDIT' string, the user dont get access, but if the string 'VIEW' is set, the user gets access. </p>
+                </div>
+            </div>
         </div>
     </section>
 
