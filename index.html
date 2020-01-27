@@ -62,6 +62,8 @@
                             <li><a href="#makerBundle">MakerBundle</a></li>
                             <li><a href="#twig">Twig</a></li>
                             <li><a href="#services">Services</a></li>
+                            <li><a href="#security">Security and User entity</a></li>
+                            <li><a href="#voters">Voters</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1526,7 +1528,49 @@
                         Therefore we should use a service subscriber as shown in the example above, there the MarkdownHelper is now only instantiated when a twig template that used the filter cached_markdown is rendered. </p>
                 </div>
             </div>
-            <h5 class="title is-5">Voters</h5>
+
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="security"><strong>Security and User entity</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Basics</h5>
+            <div class="section-content">
+                <div class="content">
+                    <p>First install the security bundle:</p>
+                    <div class="notification">
+                        composer require security
+                    </div>
+                    <p>That will add a YAML file under: config/packages/security.yaml</p>
+                    <p>Then add user entity with the maker-bundle and foll0w the steps - according to you specifications.</p>
+                    <div class="notification">
+                        bin/console make:user
+                    </div>
+                    <p>This will add a user entity according to the specification that was applied on the maker command.</p>
+                    <p>The command also updates the security.yaml file - like this:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: updated security.yaml file
+                        </div>
+                        <div class="message-body is-family-code">
+                            security:<br>
+                            <span class="ml-20"># https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers</span> <br>
+                            <span class="ml-20">providers:</span> <br>
+                            <span class="ml-40"># used to reload user from session & other features (e.g. switch_user)</span><br>
+                            <span class="ml-40">app_user_provider:</span><br>
+                            <span class="ml-60">entity:</span><br>
+                            <span class="ml-80">class: App\Entity\User</span><br>
+                            <span class="ml-80"> property: email</span><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="voters"><strong>Voters</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Basics</h5>
             <div class="section-content">
                 <div class="content">
                     <p>Voters are a way to check permissions, and they can be used when we want to restrict who is allowed to see/edit/update/... a page/content based on more complex logic than just using roles. One situation could be that only the user and a admin are allowed to see s specific page. So voters are used to checking if a user has permission to do what he requests. </p>
