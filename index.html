@@ -1563,6 +1563,18 @@
                             <span class="ml-80"> property: email</span><br>
                         </div>
                     </div>
+                    <p>Add the database version that you are using in config/packages/doctrine.yaml</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: update doctrine.yaml file
+                        </div>
+                        <div class="message-body is-family-code">
+                            doctrine:<br>
+                            <span class="ml-20">dbal:</span> <br>
+                            <span class="ml-40">url: '%env(resolve:DATABASE_URL)%'</span><br>
+                            <span class="ml-40">server_version: '5.7'</span><br>
+                        </div>
+                    </div>
                 </div>
             </div>
 
