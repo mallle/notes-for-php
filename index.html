@@ -64,6 +64,7 @@
                             <li><a href="#services">Services</a></li>
                             <li><a href="#security">Security and User entity</a></li>
                             <li><a href="#voters">Voters</a></li>
+                            <li><a href="#tests">Tests</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1670,6 +1671,20 @@
                     </div>
                     <p>The method supports() is first hit. It checks if the attribute 'EDIT' added in the method isGranted('EDIT', $person), is part of the access attributes (here the attirbutes are EDIT and VIEW), and then its checks if the object added is a Person.</p>
                     <p>Then the method voteOnAttributes() are hit. The fist thing that's checked is if the current user is not anonymous. After that, the conditions for the attributes are checked. If the isGranted() is called with the 'EDIT' string, the user dont get access, but if the string 'VIEW' is set, the user gets access. </p>
+                </div>
+            </div>
+
+            <div class="heading-box">
+                <h3 class="title is-3" id="tests"><strong>Tests</strong></h3>
+                <button class="copy" data-tooltip="Copy the link to this section."><i class="fas fa-copy"></i></button>
+            </div>
+            <h5 class="title is-5">Basics</h5>
+            <div class="section-content">
+                <div class="content">
+                    First install this bundle: <a href="https://symfony.com/doc/current/testing.html" target="_blank">https://symfony.com/doc/current/testing.html</a>
+                    <div class="notification">
+                        composer require --dev symfony/phpunit-bridge
+                    </div>
                 </div>
             </div>
         </div>
