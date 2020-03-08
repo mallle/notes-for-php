@@ -1588,6 +1588,126 @@
                             <span class="ml-40">server_version: '5.7'</span><br>
                         </div>
                     </div>
+                    <p>Add authentication and call it 'LoginFormAuthenticator'</p>
+                    <div class="notification">
+                        bin/console make:auth
+                    </div>
+                    <p>This will generate the following files:</p>
+                    <ul>
+                        <li>src/Controller/SecurityController</li>
+                        <li>src/Security/LoginFormAuthenticator</li>
+                        <li>templates/security/login.html.twig</li>
+                    </ul>
+                    <p>And update the security.yaml file:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: update security.yaml file
+                        </div>
+                        <div class="message-body is-family-code">
+                            security:<br>
+                            <span class="ml-20">.....</span> <br>
+                            <span class="ml-20">firewalls:</span> <br>
+                            <span class="ml-40">main:</span><br>
+                            <span class="ml-60">anonymous: lazy</span><br>
+                            <span class="ml-60">guard:</span><br>
+                            <span class="ml-80">authenticators:</span><br>
+                            <span class="ml-100">- App\Security\LoginFormAuthenticator</span><br>
+                            <span class="ml-80">logout:</span><br>
+                            <span class="ml-100">path: app_logout</span><br>
+                            <span class="ml-20">.....</span> <br>
+                        </div>
+                    </div>
+                    <p>Add the following to the function onAuthenticationSuccess in src/Security/LoginFormAuthenticator file:</p>
+                    <div class="notification">
+                        return new RedirectResponse($this->urlGenerator->generate('route_name'));
+                    </div>
+                    <p>Add the remember me functionality by adding a checkbox to the form that has a input field with the name of 'name="_remember_me"' and update the security.yaml file</p>
+                    <div class="notification">
+                        &lt;label&gt; <br/>
+                        <span class="ml-20">&lt;input type="checkbox" name="_remember_me"&gt; Remember me</span><br/>
+                        &lt;/label&gt;
+                    </div>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: update security.yaml file
+                        </div>
+                        <div class="message-body is-family-code">
+                            security:<br>
+                            <span class="ml-20">.....</span> <br>
+                            <span class="ml-20">firewalls:</span> <br>
+                            <span class="ml-40">main:</span><br>
+                            <span class="ml-60">remember_me:</span><br>
+                            <span class="ml-80">secret:   '%kernel.secret%'</span><br>
+                            <span class="ml-80">lifetime: 2592000 # 30 days in seconds</span><br>
+                            <span class="ml-20">.....</span> <br>
+                        </div>
+                    </div>
+                    <p>Add access control for routes:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: update security.yaml file
+                        </div>
+                        <div class="message-body is-family-code">
+                            security:<br>
+                            <span class="ml-20">.....</span> <br>
+                            <span class="ml-20">access_control:</span> <br>
+                            <span class="ml-40">- { path: ^/admin, roles: ROLE_ADMIN }</span><br>
+                            <span class="ml-20">.....</span> <br>
+                        </div>
+                    </div>
+                    <p class="ml-20">This makes all routes with /admin accessible only for users with the role ROLE_ADMIN. Access controls work like routes: Symfony checks them one-by-one from top to bottom. And as soon as it finds one access control that matches the URL, it uses that and stops.</p>
+                    <p>You can also control user access in your controller:</p>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: use php to control access
+                        </div>
+                        <div class="message-body is-family-code">
+                            public function profile(){<br>
+                            <span class="ml-20">$this->denyAccessUnlessGranted('ROLE_ADMIN');</span> <br>
+                            <span class="ml-20">return $this->render('profile/index.html.twig');</span> <br>
+                            }<br>
+                        </div>
+                    </div>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: use annotations to control access
+                        </div>
+                        <div class="message-body is-family-code">
+                            /* <br/>
+                            * @IsGranted("ROLE_ADMIN") <br/>
+                            */<br/>
+                            public function profile(){<br>
+                            <span class="ml-20">return $this->render('profile/index.html.twig');</span> <br>
+                            }<br>
+                        </div>
+                    </div>
+                    <p class="ml-20">You can also protect all routes in a class by adding the annotations to the class it self.</p>
+                    <p>Check if a user is login in a twig template - here we use the role 'ROLE_USER':</p>
+                    <div class="notification">
+                        {% if is_granted('ROLE_USER') %} <br>
+                        {% endif %}
+                    </div>
+                    <p>There are also 3 other "roles" that every user can get</p>
+                    <ul>
+                        <li>IS_AUTHENTICATED_ANONYMOUSLY --> Every user has this role - before they are logged in </li>
+                        <li>IS_AUTHENTICATED_REMEMBERED --> Every user that has used the "remeber me" checkbox - they will not have the role authenticated fully</li>
+                        <li>IS_AUTHENTICATED_FULLY --> Every user that logged in on the session</li>
+                    </ul>
+                    <div class="message is-black">
+                        <div class="message-header">
+                            Example: access for control in security.yaml file
+                        </div>
+                        <div class="message-body is-family-code">
+                            security:<br>
+                            <span class="ml-20">.....</span> <br>
+                            <span class="ml-20">access_control:</span> <br>
+                            <span class="ml-40">- { path: ^/change-passowrd, roles: IS_AUTHENTICATED_FULLY }</span><br>
+                            <span class="ml-40">- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }</span><br>
+                            <span class="ml-40">- { path: ^/, roles: IS_AUTHENTICATED_REMEMBERED }</span><br>
+                            <span class="ml-20">.....</span> <br>
+                        </div>
+                    </div>
+                    <p class="ml-20">All pages are only accessible if the user is authenticated als remembered, the /login page can be accessed from anonymous users and the /change-password page kan only be accessed by users that has log in on the session where they get the fully authenticated role.</p>
                 </div>
             </div>
 
